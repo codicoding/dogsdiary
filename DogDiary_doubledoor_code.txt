@@ -1,0 +1,121 @@
+void setup()
+{
+	ServoWrite(2, 90)
+	ServoWrite(3, 90)
+	SerialBegin(115200)
+	
+}
+
+void loop()
+{
+	d1 = DigitalRead(4)
+	d2 = DigitalRead(7)
+	d3 = DigitalRead(8)//인간용
+	d4 = DigitalRead(9)//인간용
+	
+	if ( d1==HIGH || d3 == HIGH)
+	{
+		if(d1 == HIGH)
+		{
+			SerialWrite('O') //out 바깥에서 버튼을 눌러 문을 열었음
+		}
+		ServoWrite(2,180)
+		
+		//Print("Door1 opened")
+		
+		Delay(3000)
+		
+		magnet1 = DigitalRead(5)  //앞쪽 문 문닫힘 여부 (닫히면 1 열려있으면 0), 자석스위치
+		
+		while(magnet1 == 0) //열려있는동안
+		{
+			delay(100)
+			magnet1 = DigitalRead(5)
+		}
+		
+		//Print("Door1 closed")
+		
+		Delay(1000)
+		
+		//앞문이 닫히면 이부분이 실행됨
+		ServoWrite(2, 90)
+		ServoWrite(3, 180)
+		Delay(5000)
+		
+		//Print("Door2 opened")
+		
+		magnet2 = DigitalRead(6) //뒤쪽 문 문닫힘 여부 (닫히면 1 열려있으면 0), 자석스위치
+		
+		while(magnet2 == 0)
+		{
+			Delay(100)
+			magnet2 = DigitalRead(6)
+		}
+		
+		delay(1000)
+		
+		//Print("Door2 closed")
+		
+		ServoWrite(3, 90)
+		
+	}
+	
+	
+	else if ( d2==HIGH || d4 == HIGH)
+	{
+		if (d2==HIGH)
+		{
+			SerialWrite('I')//in 안에서 문을 연것.
+		}
+		ServoWrite(3,180)
+		
+		//Print("Door2 opened")
+		
+		Delay(3000)
+		
+		magnet2 = DigitalRead(6)  //앞쪽 문 문닫힘 여부 (닫히면 1 열려있으면 0), 자석스위치
+		
+		while(magnet2 == 0) //열려있는동안
+		{
+			delay(100)
+			magnet2 = DigitalRead(6)
+		}
+		
+		//Print("Door2 closed")
+		
+		Delay(1000)
+		
+		//앞문이 닫히면 이부분이 실행됨
+		ServoWrite(3, 90)
+		ServoWrite(2, 180)
+		Delay(5000)
+		
+		//Print("Door1 opened")
+		
+		magnet1 = DigitalRead(5) //뒤쪽 문 문닫힘 여부 (닫히면 1 열려있으면 0), 자석스위치
+		
+		while(magnet1 == 0)
+		{
+			Delay(100)
+			magnet1 = DigitalRead(5)
+		}
+		
+		delay(1000)
+		
+		//Print("Door1 closed")
+		
+		ServoWrite(2, 90)
+		
+	}
+	
+	
+	
+	else
+	{
+		Delay(200)
+	}
+}
+
+
+
+
